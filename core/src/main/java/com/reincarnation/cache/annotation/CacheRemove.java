@@ -27,6 +27,4 @@ import javax.inject.Qualifier;
 @Target(ElementType.METHOD)
 public @interface CacheRemove {
     String value() default "";
-    
-    boolean parameterAnnotated() default false;
 }

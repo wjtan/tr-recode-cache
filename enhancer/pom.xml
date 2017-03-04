@@ -8,42 +8,31 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>cache</artifactId>
+  <artifactId>cache-enhancer</artifactId>
   <packaging>jar</packaging>
 
-  <name>TR-Recode Cache (Core)</name>
+  <name>TR Recode Cache (Enhancer)</name>
+
+  <properties>
+
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.reincarnation.cache</groupId>
+      <artifactId>cache</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.reincarnation.cache</groupId>
       <artifactId>inceptor-annotation</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.ben-manes.caffeine</groupId>
-      <artifactId>caffeine</artifactId>
     </dependency>
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
-      <scope>compile</scope>
-      <optional>true</optional>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.typesafe</groupId>
-      <artifactId>config</artifactId>
-    </dependency>
-    
+     
     <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
@@ -66,5 +55,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
 </project>

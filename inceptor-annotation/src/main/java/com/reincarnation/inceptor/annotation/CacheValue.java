@@ -1,28 +1,24 @@
-package com.reincarnation.cache.annotation;
+package com.reincarnation.inceptor.annotation;
 
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.inject.Qualifier;
-
 /**
  * <p>
- * Description: Identify which parameter will be used as parameter
+ * Description: Label the parameter to be assigned as the CacheValue
  * </p>
  * <p>
- * Copyright: 2016
+ * Copyright: 2017
  * </p>
- * 
+ *
  * @author Denom
  * @version 1.0
- * 
  */
-
 @Retention(RUNTIME)
-@Qualifier
-@Target(ElementType.PARAMETER)
+@Target(PARAMETER)
 public @interface CacheValue {
+    
 }

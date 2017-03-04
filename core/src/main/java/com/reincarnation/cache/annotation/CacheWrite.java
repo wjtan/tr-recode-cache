@@ -38,6 +38,4 @@ public @interface CacheWrite {
     String value();
     
     int timeToLiveSeconds() default 0;
-    
-    boolean parameterAnnotated() default false;
 }

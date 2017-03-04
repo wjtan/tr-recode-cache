@@ -1,5 +1,7 @@
 package com.reincarnation.cache;
 
+import com.reincarnation.cache.util.HashFunction;
+
 import java.util.concurrent.Callable;
 
 /**
@@ -16,13 +18,22 @@ import java.util.concurrent.Callable;
  */
 public interface CacheAdapter {
     
-    public <T> T getOrElse(String key, Callable<T> block);
+    <T> T getOrElse(int hash, Callable<T> callable);
     
-    public <T> T getOrElse(String key, Callable<T> block, int timeToLiveInSeconds);
+    <T> T getOrElse(int hash, Callable<T> callable, int timeToLiveInSeconds);
     
-    public void put(String key, Object value);
+    void put(int hash, Object value);
     
-    public void put(String key, Object value, int timeToLiveInSeconds);
+    void put(int hash, Object value, int timeToLiveInSeconds);
     
-    public void remove(String key);
+    void remove(int hash);
+    
+    default void remove(String prefix, Object... args) {
+        HashFunction hashFunc = new HashFunction(prefix.hashCode());
+        for (Object arg : args) {
+            hashFunc.hash(arg);
+        }
+        int hash = hashFunc.getResult();
+        remove(hash);
+    }
 }

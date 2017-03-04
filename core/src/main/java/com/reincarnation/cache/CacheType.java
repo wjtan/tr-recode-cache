@@ -5,14 +5,14 @@ package com.reincarnation.cache;
  * Description: CacheType
  * </p>
  * <p>
- * Copyright: 2016
+ * Copyright: 2017
  * </p>
- *
+ * 
  * @author Denom
- * @version 1.0
  */
 public enum CacheType {
     CONCURRENT_HASHMAP,
-    PLAY_EHCACHE,
-    CAFFEINE
+    CAFFEINE;
+    
+    public static final String CACHE_TYPE = "cache.type";
 }

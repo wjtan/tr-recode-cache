@@ -2,9 +2,12 @@ package com.reincarnation.cache.annotation;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.reincarnation.cache.util.AlwaysTrue;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.util.function.Supplier;
 
 import javax.inject.Qualifier;
 
@@ -21,7 +24,7 @@ import javax.inject.Qualifier;
  *     &#064;Cached
  *     public int get(int key) {
  *     }
- *     
+ * 
  *     &#064;Cached(&quot;MY_KEY&quot;)
  *     public int getOther(int key) {
  *     }
@@ -44,7 +47,8 @@ public @interface Cached {
     
     int timeToLiveSeconds() default 0;
     
-    boolean disableInArmageddon() default false;
-    
-    boolean parameterAnnotated() default false;
+    /**
+     * If predicate return False, cache will be disabled
+     */
+    Class<? extends Supplier<Boolean>> predicate() default AlwaysTrue.class;
 }

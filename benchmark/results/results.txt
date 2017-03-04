@@ -1,6 +1,0 @@
-# Run complete. Total time: 00:20:24
-
-Benchmark                            Mode  Cnt        Score        Error  Units
-CaffineCacheBenchmark.testGet       thrpt  200  2058821.418 ±   4153.786  ops/s
-CaffineCacheBenchmark.testGetKey    thrpt  200  4940403.953 ± 203894.576  ops/s
-CaffineCacheBenchmark.testGetTimed  thrpt  200  1946345.278 ±  34661.199  ops/s
