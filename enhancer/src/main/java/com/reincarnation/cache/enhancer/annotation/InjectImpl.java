@@ -1,4 +1,4 @@
-package com.reincarnation.cache.enhancer;
+package com.reincarnation.cache.enhancer.annotation;
 
 import java.lang.annotation.Annotation;
 import javax.inject.Inject;
@@ -13,7 +13,7 @@ import javax.inject.Inject;
  * 
  * @author Denom
  */
-class InjectImpl implements Inject {
+public class InjectImpl implements Inject {
     
     @Override
     public Class<? extends Annotation> annotationType() {

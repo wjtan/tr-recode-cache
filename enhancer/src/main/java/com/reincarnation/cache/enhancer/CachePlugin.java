@@ -11,6 +11,8 @@ import com.reincarnation.cache.annotation.CacheRemoves;
 import com.reincarnation.cache.annotation.CacheWrite;
 import com.reincarnation.cache.annotation.Cached;
 import com.reincarnation.cache.annotation.IgnoreCacheEnhancer;
+import com.reincarnation.cache.enhancer.annotation.IgnoreCacheEnhancerImpl;
+import com.reincarnation.cache.enhancer.annotation.InjectImpl;
 import com.reincarnation.cache.enhancer.binder.CachePredicateBinder;
 import com.reincarnation.cache.enhancer.binder.CacheRemoveHashBinder;
 import com.reincarnation.cache.enhancer.binder.CacheValueBinder;
@@ -54,6 +56,8 @@ public class CachePlugin implements Plugin {
     
     private static final RandomString RANDOM_STRING = new RandomString();
     
+    private static final String CACHE_FIELDNAME = "cache";
+    
     @Override
     public boolean matches(TypeDescription target) {
         if (target.getDeclaredAnnotations().isAnnotationPresent(IgnoreCacheEnhancer.class)) {
@@ -75,7 +79,9 @@ public class CachePlugin implements Plugin {
     
     @Override
     public Builder<?> apply(Builder<?> builder, TypeDescription target) {
-        Builder<?> builder2 = builder.defineField("cache", CacheAdapter.class, Visibility.PUBLIC).annotateField(new InjectImpl());
+        // Add IgnoreCacheEnhancer so that class will not be enhanced again
+        Builder<?> builder2 = builder.annotateType(new IgnoreCacheEnhancerImpl())
+                                     .defineField(CACHE_FIELDNAME, CacheAdapter.class, Visibility.PUBLIC).annotateField(new InjectImpl());
         builder2 = applyPredicate(builder2, target);
         
         // More detailed match lower
