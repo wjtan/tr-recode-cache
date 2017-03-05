@@ -8,7 +8,7 @@ import static com.reincarnation.cache.enhancer.binder.HashTypes.HASH_FUNCTION_TY
 
 import com.reincarnation.cache.annotation.CacheRemove;
 import com.reincarnation.cache.annotation.CacheRemoves;
-import com.reincarnation.inceptor.annotation.GeneratedHash;
+import com.reincarnation.interceptor.annotation.GeneratedHash;
 
 import com.google.common.base.Strings;
 

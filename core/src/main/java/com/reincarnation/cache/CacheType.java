@@ -13,6 +13,4 @@ package com.reincarnation.cache;
 public enum CacheType {
     CONCURRENT_HASHMAP,
     CAFFEINE;
-    
-    public static final String CACHE_TYPE = "cache.type";
 }

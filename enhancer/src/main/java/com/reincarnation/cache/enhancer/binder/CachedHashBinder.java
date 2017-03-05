@@ -7,7 +7,7 @@ import static com.reincarnation.cache.enhancer.binder.HashTypes.GET_HASH_METHOD;
 import static com.reincarnation.cache.enhancer.binder.HashTypes.HASH_FUNCTION_TYPE;
 
 import com.reincarnation.cache.annotation.Cached;
-import com.reincarnation.inceptor.annotation.GeneratedHash;
+import com.reincarnation.interceptor.annotation.GeneratedHash;
 
 import java.util.ArrayList;
 import java.util.List;

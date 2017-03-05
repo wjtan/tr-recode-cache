@@ -5,4 +5,4 @@
  *
  * @author Denom
  */
-package com.reincarnation.cache.inceptor;
+package com.reincarnation.cache.interceptor;

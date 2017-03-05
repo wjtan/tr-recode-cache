@@ -4,7 +4,6 @@ import com.reincarnation.cache.CacheAdapter;
 import com.reincarnation.cache.CacheType;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class SimpleCacheModule extends AbstractModule {
     protected void configure() {
         LOGGER.info("ConcurrentHashMap Cache");
         
-        bind(String.class).annotatedWith(Names.named(CacheType.CACHE_TYPE)).toInstance(CacheType.CONCURRENT_HASHMAP.name());
+        bind(CacheType.class).toInstance(CacheType.CONCURRENT_HASHMAP);
         bind(CacheAdapter.class).to(SimpleCache.class);
     }
     

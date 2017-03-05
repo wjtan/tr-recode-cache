@@ -1,7 +1,7 @@
 package com.reincarnation.cache.enhancer.binder;
 
 import com.reincarnation.cache.annotation.Cached;
-import com.reincarnation.inceptor.annotation.CacheDuration;
+import com.reincarnation.interceptor.annotation.CacheDuration;
 
 import net.bytebuddy.description.annotation.AnnotationDescription;
 import net.bytebuddy.description.annotation.AnnotationDescription.Loadable;

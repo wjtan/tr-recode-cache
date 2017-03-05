@@ -1,6 +1,8 @@
 package com.reincarnation.cache.caffeine;
 
-import static com.reincarnation.cache.caffeine.CacheConfigKeys.*;
+import static com.reincarnation.cache.caffeine.CacheConfigKeys.CAFFEINE_SIZE;
+import static com.reincarnation.cache.caffeine.CacheConfigKeys.CAFFEINE_STATISTICS;
+
 import com.reincarnation.cache.CacheAdapter;
 import com.reincarnation.cache.CacheType;
 
@@ -8,7 +10,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.google.inject.name.Names;
 import com.typesafe.config.Config;
 
 import javax.inject.Singleton;
@@ -28,7 +29,7 @@ public class CaffeineCacheModule extends AbstractModule {
     
     @Override
     protected void configure() {
-        bind(String.class).annotatedWith(Names.named(CacheType.CACHE_TYPE)).toInstance(CacheType.CAFFEINE.name());
+        bind(CacheType.class).toInstance(CacheType.CAFFEINE);
         bind(CacheAdapter.class).to(CaffeineCacheAdapter.class);
     }
     

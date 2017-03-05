@@ -1,14 +1,14 @@
-package com.reincarnation.inceptor.annotation;
+package com.reincarnation.interceptor.annotation;
 
 import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
  * <p>
- * Description: CachePredicate
+ * Description: GeneratedHash
  * </p>
  * <p>
  * Copyright: 2017
@@ -16,8 +16,8 @@ import java.lang.annotation.Target;
  * 
  * @author Denom
  */
-@Retention(RUNTIME)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(PARAMETER)
-public @interface CachePredicate {
+public @interface GeneratedHash {
     
 }

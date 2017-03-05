@@ -4,7 +4,7 @@ import static net.bytebuddy.matcher.ElementMatchers.fieldType;
 
 import com.reincarnation.cache.annotation.Cached;
 import com.reincarnation.cache.util.AlwaysTrue;
-import com.reincarnation.inceptor.annotation.CachePredicate;
+import com.reincarnation.interceptor.annotation.CachePredicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

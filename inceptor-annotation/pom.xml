@@ -5,6 +5,6 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>inceptor-annotation</artifactId>
-  <name>TR-Recode Cache (Inceptor Annotation)</name>
+  <artifactId>interceptor-annotation</artifactId>
+  <name>TR-Recode Cache (Interceptor Annotation)</name>
 </project>

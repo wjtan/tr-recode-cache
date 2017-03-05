@@ -16,7 +16,7 @@
   <dependencies>
     <dependency>
       <groupId>com.reincarnation.cache</groupId>
-      <artifactId>inceptor-annotation</artifactId>
+      <artifactId>interceptor-annotation</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
       <optional>true</optional>

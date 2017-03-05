@@ -1,9 +1,9 @@
-package com.reincarnation.cache.inceptor;
+package com.reincarnation.cache.interceptor;
 
 import com.reincarnation.cache.CacheAdapter;
-import com.reincarnation.inceptor.annotation.CacheDuration;
-import com.reincarnation.inceptor.annotation.CachePredicate;
-import com.reincarnation.inceptor.annotation.GeneratedHash;
+import com.reincarnation.interceptor.annotation.CacheDuration;
+import com.reincarnation.interceptor.annotation.CachePredicate;
+import com.reincarnation.interceptor.annotation.GeneratedHash;
 
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;

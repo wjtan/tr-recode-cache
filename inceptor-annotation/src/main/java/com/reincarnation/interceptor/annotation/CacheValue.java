@@ -1,4 +1,4 @@
-package com.reincarnation.inceptor.annotation;
+package com.reincarnation.interceptor.annotation;
 
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

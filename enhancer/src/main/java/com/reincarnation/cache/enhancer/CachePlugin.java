@@ -18,9 +18,9 @@ import com.reincarnation.cache.enhancer.binder.CacheWriteDurationBinder;
 import com.reincarnation.cache.enhancer.binder.CacheWriteHashBinder;
 import com.reincarnation.cache.enhancer.binder.CachedDurationBinder;
 import com.reincarnation.cache.enhancer.binder.CachedHashBinder;
-import com.reincarnation.cache.inceptor.CacheRemoveInterceptor;
-import com.reincarnation.cache.inceptor.CacheWriteInterceptor;
-import com.reincarnation.cache.inceptor.CachedHashInterceptor;
+import com.reincarnation.cache.interceptor.CacheRemoveInterceptor;
+import com.reincarnation.cache.interceptor.CacheWriteInterceptor;
+import com.reincarnation.cache.interceptor.CachedHashInterceptor;
 import com.reincarnation.cache.util.AlwaysTrue;
 
 import org.slf4j.Logger;
