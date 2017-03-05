@@ -2,6 +2,7 @@ package com.reincarnation.cache.caffeine;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.reincarnation.cache.CacheAdapter;
 import com.reincarnation.cache.annotation.CacheKey;
 import com.reincarnation.cache.annotation.CacheRemove;
 import com.reincarnation.cache.annotation.CacheValue;
@@ -16,6 +17,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -60,6 +62,12 @@ public class CaffeineCacheAOPUnitTest {
         });
         
         injector = Guice.createInjector(modules);
+    }
+    
+    @After
+    public void clearCache() {
+        CacheAdapter adapter = injector.getInstance(CacheAdapter.class);
+        adapter.clear();
     }
     
     public static class CacheClass {

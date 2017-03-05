@@ -1,7 +1,8 @@
 package com.reincarnation.cache.simple;
 
 import com.reincarnation.cache.CacheAdapter;
-import com.reincarnation.cache.util.ErrorWrapper;
+import com.reincarnation.cache.CacheException;
+import com.reincarnation.cache.util.TimedObject;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,12 +33,43 @@ class SimpleCache implements CacheAdapter {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T getOrElse(int key, Callable<T> block) {
-        return (T) cache.computeIfAbsent(key, key2 -> ErrorWrapper.get(block));
+        if (cache.containsKey(key)) {
+            return (T) cache.get(key);
+        }
+        
+        try {
+            T value2 = block.call();
+            cache.put(key, value2);
+            return value2;
+        } catch (Exception e) {
+            throw new CacheException(e);
+        }
     }
     
     @Override
     public <T> T getOrElse(int key, Callable<T> block, int timeToLiveInSeconds) {
-        return getOrElse(key, block);
+        @SuppressWarnings("unchecked")
+        TimedObject<T> result = (TimedObject<T>) cache.compute(key, (k, v) -> {
+            if (v == null) {
+                try {
+                    return new TimedObject<>(block.call(), timeToLiveInSeconds);
+                } catch (Exception e) {
+                    throw new CacheException(e);
+                }
+            }
+            
+            TimedObject<T> currentResult = (TimedObject<T>) v;
+            if (!currentResult.isExpired()) {
+                return currentResult;
+            }
+            
+            try {
+                return new TimedObject<>(block.call(), timeToLiveInSeconds);
+            } catch (Exception e) {
+                throw new CacheException(e);
+            }
+        });
+        return result.getValue();
     }
     
     @Override
@@ -47,12 +79,17 @@ class SimpleCache implements CacheAdapter {
     
     @Override
     public void put(int key, Object value, int timeToLiveInSeconds) {
-        cache.put(key, value);
+        cache.put(key, new TimedObject<>(value, timeToLiveInSeconds));
     }
     
     @Override
     public void remove(int key) {
         cache.remove(key);
+    }
+    
+    @Override
+    public void clear() {
+        cache.clear();
     }
     
 }

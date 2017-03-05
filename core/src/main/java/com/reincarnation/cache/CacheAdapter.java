@@ -28,6 +28,11 @@ public interface CacheAdapter {
     
     void remove(int hash);
     
+    /**
+     * Remove or invalidate all entries
+     */
+    void clear();
+    
     default void remove(String prefix, Object... args) {
         HashFunction hashFunc = new HashFunction(prefix.hashCode());
         for (Object arg : args) {

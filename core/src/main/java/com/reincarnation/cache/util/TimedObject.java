@@ -1,7 +1,5 @@
 package com.reincarnation.cache.util;
 
-import java.time.Instant;
-
 /**
  * <p>
  * Description: TimedObject
@@ -14,16 +12,16 @@ import java.time.Instant;
  * @version 1.0
  */
 public class TimedObject<T> {
-    private final Instant expiry;
+    private final long expiry;
     private final T value;
     
     public TimedObject(T value, int timeToLiveSeconds) {
-        this.expiry = Instant.now().plusSeconds(timeToLiveSeconds);
+        this.expiry = System.currentTimeMillis() + 60 * timeToLiveSeconds;
         this.value = value;
     }
     
     public boolean isExpired() {
-        return expiry.isBefore(Instant.now());
+        return System.currentTimeMillis() > expiry;
     }
     
     public T getValue() {
