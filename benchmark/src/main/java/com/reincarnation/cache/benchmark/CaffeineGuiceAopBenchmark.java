@@ -102,7 +102,7 @@ public class CaffeineGuiceAopBenchmark {
     }
     
     @Benchmark
-    public int directCache(ExecutionState state) {
+    public int directCache(ExecutionState state) throws Exception {
         return state.directCacheClass.directCache(5);
     }
 }

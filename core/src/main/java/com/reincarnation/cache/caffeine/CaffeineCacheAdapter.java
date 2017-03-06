@@ -32,45 +32,41 @@ public class CaffeineCacheAdapter implements CacheAdapter {
     
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T getOrElse(int hash, Callable<T> callable) {
+    public <T> T getOrElse(int hash, Callable<T> callable) throws Exception {
         T value = (T) cache.getIfPresent(hash);
         if (value != null) {
             return value;
         }
         
-        try {
-            T value2 = callable.call();
-            cache.put(hash, value2);
-            return value2;
-        } catch (Exception e) {
-            throw new CacheException(e);
-        }
+        T value2 = callable.call();
+        cache.put(hash, value2);
+        return value2;
     }
     
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T getOrElse(int hash, Callable<T> callable, int timeToLiveInSeconds) {
-        TimedObject<T> result = (TimedObject<T>) cache.asMap().compute(hash, (k, v) -> {
-            if (v == null) {
+    public <T> T getOrElse(int hash, Callable<T> callable, int timeToLiveInSeconds) throws Exception {
+        try {
+            TimedObject<T> result = (TimedObject<T>) cache.asMap().compute(hash, (k, v) -> {
                 try {
+                    if (v == null) {
+                        return new TimedObject<>(callable.call(), timeToLiveInSeconds);
+                    }
+                    
+                    TimedObject<T> currentResult = (TimedObject<T>) v;
+                    if (!currentResult.isExpired()) {
+                        return currentResult;
+                    }
+                    
                     return new TimedObject<>(callable.call(), timeToLiveInSeconds);
                 } catch (Exception e) {
                     throw new CacheException(e);
                 }
-            }
-            
-            TimedObject<T> currentResult = (TimedObject<T>) v;
-            if (!currentResult.isExpired()) {
-                return currentResult;
-            }
-            
-            try {
-                return new TimedObject<>(callable.call(), timeToLiveInSeconds);
-            } catch (Exception e) {
-                throw new CacheException(e);
-            }
-        });
-        return result.getValue();
+            });
+            return result.getValue();
+        } catch (CacheException ex) {
+            throw (Exception) ex.getCause();
+        }
     }
     
     @Override

@@ -22,7 +22,7 @@ public class DirectCacheClass {
     @Inject
     private CacheAdapter cache;
     
-    public int directCache(int p) {
+    public int directCache(int p) throws Exception {
         return cache.getOrElse((CACHEKEY + "5" + p).hashCode(), () -> VALUE1 + p);
     }
 }

@@ -29,7 +29,9 @@ public final class CacheRemoveInterceptor {
                                          @SuperCall Callable<?> callable)
             throws Exception {
         
-        cache.remove(hash);
+        if (cache != null) {
+            cache.remove(hash);
+        }
         return callable.call();
     }
     
@@ -39,8 +41,10 @@ public final class CacheRemoveInterceptor {
                                           @SuperCall Callable<?> callable)
             throws Exception {
         
-        for (int hash : hashes) {
-            cache.remove(hash);
+        if (cache != null) {
+            for (int hash : hashes) {
+                cache.remove(hash);
+            }
         }
         return callable.call();
     }

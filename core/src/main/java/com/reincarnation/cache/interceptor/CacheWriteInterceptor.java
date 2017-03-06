@@ -32,7 +32,9 @@ public final class CacheWriteInterceptor {
                                       @SuperCall Callable<?> callable)
             throws Exception {
         
-        cache.put(hash, value);
+        if (cache != null) {
+            cache.put(hash, value);
+        }
         return callable.call();
     }
     
@@ -44,7 +46,9 @@ public final class CacheWriteInterceptor {
                                       @SuperCall Callable<?> callable)
             throws Exception {
         
-        cache.put(hash, value, ttl);
+        if (cache != null) {
+            cache.put(hash, value, ttl);
+        }
         return callable.call();
     }
     

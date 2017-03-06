@@ -31,8 +31,13 @@ public final class CachedHashInterceptor {
     @RuntimeType
     public static Object intercept(@FieldValue(value = "cache") CacheAdapter cache,
                                    @GeneratedHash int hash,
-                                   @SuperCall Callable<?> callable) {
-        return cache.getOrElse(hash, callable);
+                                   @SuperCall Callable<?> callable)
+            throws Exception {
+        if (cache != null) {
+            return cache.getOrElse(hash, callable);
+        } else {
+            return callable.call();
+        }
     }
     
     @BindingPriority(2)
@@ -40,8 +45,13 @@ public final class CachedHashInterceptor {
     public static Object intercept(@FieldValue(value = "cache") CacheAdapter cache,
                                    @GeneratedHash int hash,
                                    @CacheDuration int duration,
-                                   @SuperCall Callable<?> callable) {
-        return cache.getOrElse(hash, callable, duration);
+                                   @SuperCall Callable<?> callable)
+            throws Exception {
+        if (cache != null) {
+            return cache.getOrElse(hash, callable, duration);
+        } else {
+            return callable.call();
+        }
     }
     
     @BindingPriority(3)
@@ -53,7 +63,7 @@ public final class CachedHashInterceptor {
             throws Exception {
         
         // If true
-        if (predicate.get()) {
+        if (cache != null && predicate.get()) {
             return cache.getOrElse(hash, callable);
         } else {
             return callable.call();
@@ -69,7 +79,7 @@ public final class CachedHashInterceptor {
                                    @SuperCall Callable<?> callable)
             throws Exception {
         // If true
-        if (predicate.get()) {
+        if (cache != null && predicate.get()) {
             return cache.getOrElse(hash, callable, duration);
         } else {
             return callable.call();
