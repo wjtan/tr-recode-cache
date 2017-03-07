@@ -81,7 +81,7 @@ public class CachePlugin implements Plugin {
     public Builder<?> apply(Builder<?> builder, TypeDescription target) {
         // Add IgnoreCacheEnhancer so that class will not be enhanced again
         Builder<?> builder2 = builder.annotateType(new IgnoreCacheEnhancerImpl())
-                                     .defineField(CACHE_FIELDNAME, CacheAdapter.class, Visibility.PUBLIC).annotateField(new InjectImpl());
+                                     .defineField(CACHE_FIELDNAME, CacheAdapter.class, Visibility.PROTECTED).annotateField(new InjectImpl());
         builder2 = applyPredicate(builder2, target);
         
         // More detailed match lower
@@ -144,7 +144,7 @@ public class CachePlugin implements Plugin {
             
             LOGGER.trace("Add Predicate: {} -> {}", predicateType, variableName);
             variables.put(predicateType, variableName);
-            builder2 = builder2.defineField(variableName, predicateType, Visibility.PUBLIC).annotateField(new InjectImpl());
+            builder2 = builder2.defineField(variableName, predicateType, Visibility.PROTECTED).annotateField(new InjectImpl());
             
         }
         
