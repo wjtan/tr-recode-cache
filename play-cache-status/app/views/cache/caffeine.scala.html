@@ -1,0 +1,53 @@
+@* caffeine Template File *@
+
+@import com.github.benmanes.caffeine.cache.Cache
+
+@(caffeine: Cache[java.lang.Integer, Any])
+
+@import views.util.Formatter._
+
+@defining(caffeine.stats){ cacheStats =>
+
+<h3>Caffeine Cache</h3>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Static</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Size</th>
+        <td>@pretty(caffeine.estimatedSize)</td>
+      </tr>
+      <tr>
+        <th>HitCount</th>
+        <td>@pretty(cacheStats.hitCount) (@pretty(cacheStats.hitRate * 100)%)</td>
+      </tr>
+      <tr>
+        <th>MissCount</th>
+        <td>@pretty(cacheStats.missCount) (@pretty(cacheStats.missRate * 100)%)</td>
+      </tr>
+      <tr>
+        <th>LoadSuccessCount</th>
+        <td>@pretty(cacheStats.loadSuccessCount)</td>
+      </tr>
+      <tr>
+        <th>LoadFailureCount</th>
+        <td>@pretty(cacheStats.loadFailureCount)</td>
+      </tr>
+      <tr>
+        <th>TotalLoadTime</th>
+        <td>@pretty(cacheStats.totalLoadTime)</td>
+      </tr>
+      <tr>
+        <th>EvictionCount</th>
+        <td>@pretty(cacheStats.evictionCount)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+}
