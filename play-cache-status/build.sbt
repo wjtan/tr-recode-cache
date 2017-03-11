@@ -1,6 +1,6 @@
 name := """play-cache-status"""
 
-version := "0.1.0-SNAPSHOT"
+version := "0.1.0"
 
 scalaVersion := "2.11.8"
 
