@@ -16,6 +16,11 @@
         Java source/target to use for compilation.
       -->
     <javac.target>1.8</javac.target>
+    
+    <!-- Bintray Settings -->
+    <bintray.subject>wjtan</bintray.subject>
+    <bintray.repo>maven</bintray.repo>
+    <bintray.package>tr-recode-cache</bintray.package>
   </properties>
 
   <modules>
@@ -106,4 +111,10 @@
     </pluginManagement>
   </build>
 
+  <distributionManagement>
+    <repository>
+      <id>bintray-repo-maven</id>
+      <url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package}/</url>
+    </repository>
+</distributionManagement>
 </project>

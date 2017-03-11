@@ -18,40 +18,14 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 // Maven settings
 //*******************************
 
+bintrayRepository := "maven"
+
+bintrayPackage := "tr-recode-cache"
+
+licenses +=("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+
 publishMavenStyle := true
 
 organization := "com.reincarnation.cache"
 
-description := "Play Status display for Caffeine Cache"
-
-homepage := Some(url("https://github.com/wjtan/tr-recode-cache"))
-
-licenses := Seq("Apache License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
-
-startYear := Some(2017)
-
-//publishTo := {
-//  val nexus = "https://oss.sonatype.org/"
-//  if (isSnapshot.value)
-//    Some("snapshots" at nexus + "content/repositories/snapshots")
-//  else
-//    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-//}
-
 publishArtifact in Test := false
-
-pomIncludeRepository := { _ => false }
-
-pomExtra := (
-  <scm>
-    <url>git@github.com:wjtan/tr-recode-cache.git</url>
-    <connection>scm:git:git@github.com:wjtan/tr-recode-cache.git</connection>
-  </scm>
-  <developers>
-    <developer>
-      <id>wjtan</id>
-      <name>Tan Wen Jun</name>
-      <url>https://github.com/wjtan</url>
-    </developer>
-  </developers>
-)

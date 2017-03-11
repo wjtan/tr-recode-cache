@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/wjtan/maven/tr-recode-cache/images/download.svg) ](https://bintray.com/wjtan/maven/tr-recode-cache/_latestVersion)
+
 # tr-recode-cache - Aspect-Oriented Cache
 
 Aspect-Oriented (AOP) cache based on [Caffeine cache](https://github.com/ben-manes/caffeine) using [Guice](https://github.com/google/guice) for dependency injection.
