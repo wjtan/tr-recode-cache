@@ -1,11 +1,11 @@
 package com.reincarnation.cache.interceptor;
 
 import com.reincarnation.cache.CacheAdapter;
+import com.reincarnation.interceptor.annotation.Cache;
 import com.reincarnation.interceptor.annotation.GeneratedHash;
 
 import java.util.concurrent.Callable;
 
-import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 
@@ -24,7 +24,7 @@ public final class CacheRemoveInterceptor {
     }
     
     @RuntimeType
-    public static Object interceptRemove(@FieldValue(value = "cache") CacheAdapter cache,
+    public static Object interceptRemove(@Cache CacheAdapter cache,
                                          @GeneratedHash int hash,
                                          @SuperCall Callable<?> callable)
             throws Exception {
@@ -36,7 +36,7 @@ public final class CacheRemoveInterceptor {
     }
     
     @RuntimeType
-    public static Object interceptRemoves(@FieldValue(value = "cache") CacheAdapter cache,
+    public static Object interceptRemoves(@Cache CacheAdapter cache,
                                           @GeneratedHash int[] hashes,
                                           @SuperCall Callable<?> callable)
             throws Exception {

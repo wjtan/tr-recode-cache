@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * <p>
- * Description: CachePredicate
+ * Description: Label the parameter as the Predicate class
  * </p>
  * <p>
  * Copyright: 2017

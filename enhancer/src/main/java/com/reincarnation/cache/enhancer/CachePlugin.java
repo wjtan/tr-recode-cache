@@ -13,6 +13,7 @@ import com.reincarnation.cache.annotation.Cached;
 import com.reincarnation.cache.annotation.IgnoreCacheEnhancer;
 import com.reincarnation.cache.enhancer.annotation.IgnoreCacheEnhancerImpl;
 import com.reincarnation.cache.enhancer.annotation.InjectImpl;
+import com.reincarnation.cache.enhancer.binder.CacheBinder;
 import com.reincarnation.cache.enhancer.binder.CachePredicateBinder;
 import com.reincarnation.cache.enhancer.binder.CacheRemoveHashBinder;
 import com.reincarnation.cache.enhancer.binder.CacheValueBinder;
@@ -56,8 +57,6 @@ public class CachePlugin implements Plugin {
     
     private static final RandomString RANDOM_STRING = new RandomString();
     
-    private static final String CACHE_FIELDNAME = "cache";
-    
     @Override
     public boolean matches(TypeDescription target) {
         if (target.getDeclaredAnnotations().isAnnotationPresent(IgnoreCacheEnhancer.class)) {
@@ -81,31 +80,34 @@ public class CachePlugin implements Plugin {
     public Builder<?> apply(Builder<?> builder, TypeDescription target) {
         // Add IgnoreCacheEnhancer so that class will not be enhanced again
         Builder<?> builder2 = builder.annotateType(new IgnoreCacheEnhancerImpl())
-                                     .defineField(CACHE_FIELDNAME, CacheAdapter.class, Visibility.PROTECTED).annotateField(new InjectImpl());
+                                     .defineField(randomName("cache"), CacheAdapter.class, Visibility.PROTECTED).annotateField(new InjectImpl());
         builder2 = applyPredicate(builder2, target);
         
         // More detailed match lower
         return builder2.method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(CacheRemove.class).or(isAnnotatedWith(CacheRemoves.class))).and(not(isStatic())))
                        .intercept(MethodDelegation.withDefaultConfiguration()
-                                                  .withBinders(CacheRemoveHashBinder.INSTANCE)
+                                                  .withBinders(CacheBinder.INSTANCE,
+                                                               CacheRemoveHashBinder.INSTANCE)
                                                   .to(CacheRemoveInterceptor.class))
                        
                        .method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(CacheWrite.class)).and(not(isStatic())))
                        .intercept(MethodDelegation.withDefaultConfiguration()
-                                                  .withBinders(CacheWriteHashBinder.INSTANCE,
+                                                  .withBinders(CacheBinder.INSTANCE,
+                                                               CacheWriteHashBinder.INSTANCE,
                                                                CacheWriteDurationBinder.INSTANCE,
                                                                CacheValueBinder.INSTANCE)
                                                   .to(CacheWriteInterceptor.class))
                        
                        .method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(Cached.class)).and(not(isStatic())))
                        .intercept(MethodDelegation.withDefaultConfiguration()
-                                                  .withBinders(CachedHashBinder.INSTANCE,
+                                                  .withBinders(CacheBinder.INSTANCE,
+                                                               CachedHashBinder.INSTANCE,
                                                                CachedDurationBinder.INSTANCE,
                                                                CachePredicateBinder.INSTANCE)
                                                   .to(CachedHashInterceptor.class));
     }
     
-    protected static String name(String prefix) {
+    protected static String randomName(String prefix) {
         return String.format("%s$%s", prefix, RANDOM_STRING.nextString());
     }
     
@@ -140,7 +142,7 @@ public class CachePlugin implements Plugin {
                 continue;
             }
             
-            String variableName = name(predicateType.getSimpleName());
+            String variableName = randomName(predicateType.getSimpleName());
             
             LOGGER.trace("Add Predicate: {} -> {}", predicateType, variableName);
             variables.put(predicateType, variableName);

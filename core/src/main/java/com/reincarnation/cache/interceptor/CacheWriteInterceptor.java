@@ -1,13 +1,13 @@
 package com.reincarnation.cache.interceptor;
 
 import com.reincarnation.cache.CacheAdapter;
+import com.reincarnation.interceptor.annotation.Cache;
 import com.reincarnation.interceptor.annotation.CacheDuration;
 import com.reincarnation.interceptor.annotation.CacheValue;
 import com.reincarnation.interceptor.annotation.GeneratedHash;
 
 import java.util.concurrent.Callable;
 
-import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 
@@ -26,7 +26,7 @@ public final class CacheWriteInterceptor {
     }
     
     @RuntimeType
-    public static Object interceptPut(@FieldValue(value = "cache") CacheAdapter cache,
+    public static Object interceptPut(@Cache CacheAdapter cache,
                                       @GeneratedHash int hash,
                                       @CacheValue Object value,
                                       @SuperCall Callable<?> callable)
@@ -39,7 +39,7 @@ public final class CacheWriteInterceptor {
     }
     
     @RuntimeType
-    public static Object interceptPut(@FieldValue(value = "cache") CacheAdapter cache,
+    public static Object interceptPut(@Cache CacheAdapter cache,
                                       @GeneratedHash int hash,
                                       @CacheDuration int ttl,
                                       @CacheValue Object value,
