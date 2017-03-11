@@ -24,7 +24,7 @@ public class SimpleCacheModule extends AbstractModule {
     
     @Override
     protected void configure() {
-        LOGGER.info("ConcurrentHashMap Cache");
+        LOGGER.debug("ConcurrentHashMap Cache");
         
         bind(CacheType.class).toInstance(CacheType.CONCURRENT_HASHMAP);
         bind(CacheAdapter.class).to(SimpleCache.class);

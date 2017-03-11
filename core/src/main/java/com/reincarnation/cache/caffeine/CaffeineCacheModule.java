@@ -12,6 +12,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.typesafe.config.Config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.inject.Singleton;
 
 /**
@@ -26,9 +29,12 @@ import javax.inject.Singleton;
  * @version 1.0
  */
 public class CaffeineCacheModule extends AbstractModule {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CaffeineCacheModule.class);
     
     @Override
     protected void configure() {
+        LOGGER.debug("Caffeine Cache");
+        
         bind(CacheType.class).toInstance(CacheType.CAFFEINE);
         bind(CacheAdapter.class).to(CaffeineCacheAdapter.class);
     }
