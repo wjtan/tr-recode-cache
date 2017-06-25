@@ -1,10 +1,10 @@
 name := """play-cache-status"""
 
-version := "0.1.0"
+version := "0.1.1"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.2"
 
-crossScalaVersions := Seq("2.11.8")
+crossScalaVersions := Seq("2.12.2")
 
 libraryDependencies ++= Seq(
   "com.google.inject" % "guice" % "4.1.0",
