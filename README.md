@@ -11,7 +11,7 @@ AOP is implemented using either Guice or compile-time bytecode generation using 
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>cache</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
@@ -21,14 +21,14 @@ For compile-time bytecode generation, you need to include the `interceptor-annot
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>interceptor-annotation</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <optional>true</optional>
 </dependency>
 
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>cache-enhancer</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -103,7 +103,7 @@ Using ByteBuddy:
         <plugin>com.reincarnation.cache.enhancer.CachePlugin</plugin>
         <groupId>com.reincarnation.cache</groupId>
         <artifactId>cache-enhancer</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.0</version>
       </transformation>
     </transformations>
   </configuration>
