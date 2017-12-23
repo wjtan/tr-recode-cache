@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.reincarnation.cache</groupId>
     <artifactId>parent</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
   </parent>
 
   <artifactId>cache-benchmark</artifactId>
@@ -17,7 +17,7 @@
        <!--
            JMH version to use with this project.
          -->
-       <jmh.version>1.17.5</jmh.version>
+       <jmh.version>1.19</jmh.version>
 
        <!--
            Name of the benchmark Uber-JAR to generate.

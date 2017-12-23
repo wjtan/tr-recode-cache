@@ -15,7 +15,10 @@ import net.bytebuddy.agent.builder.AgentBuilder;
  * @author Denom
  * @version 1.0
  */
-public class CacheAgent {
+public final class CacheAgent {
+    private CacheAgent() {
+    }
+    
     public static void premain(String arguments,
                                Instrumentation instrumentation) {
         

@@ -5,6 +5,7 @@ import static com.reincarnation.cache.caffeine.CacheConfigKeys.CAFFEINE_STATISTI
 
 import com.reincarnation.cache.CacheAdapter;
 import com.reincarnation.cache.CacheType;
+import com.reincarnation.cache.impl.CacheImplModule;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -37,6 +38,7 @@ public class CaffeineCacheModule extends AbstractModule {
         
         bind(CacheType.class).toInstance(CacheType.CAFFEINE);
         bind(CacheAdapter.class).to(CaffeineCacheAdapter.class);
+        install(new CacheImplModule());
     }
     
     @Singleton

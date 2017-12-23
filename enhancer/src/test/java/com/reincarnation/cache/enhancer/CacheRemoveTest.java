@@ -31,7 +31,7 @@ public class CacheRemoveTest {
     
     @BeforeClass
     public static void startApp() throws Exception {
-        Class<? extends CacheRemoveObject> clazz = new CacheInceptor().intercept(CacheRemoveObject.class);
+        Class<? extends CacheRemoveObject> clazz = new CacheInterceptor().intercept(CacheRemoveObject.class);
         injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {

@@ -4,8 +4,6 @@ import com.reincarnation.cache.annotation.IgnoreCacheEnhancer;
 
 import java.lang.annotation.Annotation;
 
-import javax.inject.Inject;
-
 /**
  * <p>
  * Description: IgnoreCacheEnhancerImpl

@@ -5,7 +5,7 @@ import com.reincarnation.cache.annotation.Cached;
 
 /**
  * <p>
- * Description: TestCached
+ * Description: CachedObject
  * </p>
  * <p>
  * Copyright: 2017

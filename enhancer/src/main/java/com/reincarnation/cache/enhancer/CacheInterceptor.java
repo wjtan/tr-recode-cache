@@ -6,7 +6,7 @@ import net.bytebuddy.dynamic.DynamicType.Builder;
 
 /**
  * <p>
- * Description: CacheInceptor
+ * Description: CacheInterceptor
  * </p>
  * <p>
  * Copyright: 2017
@@ -15,7 +15,7 @@ import net.bytebuddy.dynamic.DynamicType.Builder;
  * @author Denom
  * @version 1.0
  */
-public class CacheInceptor {
+public class CacheInterceptor {
     @SuppressWarnings("unchecked")
     public <T> Class<? extends T> intercept(Class<? extends T> clazz) {
         CachePlugin plugin = new CachePlugin();

@@ -2,6 +2,7 @@ package com.reincarnation.cache.simple;
 
 import com.reincarnation.cache.CacheAdapter;
 import com.reincarnation.cache.CacheType;
+import com.reincarnation.cache.impl.CacheImplModule;
 
 import com.google.inject.AbstractModule;
 
@@ -28,6 +29,7 @@ public class SimpleCacheModule extends AbstractModule {
         
         bind(CacheType.class).toInstance(CacheType.CONCURRENT_HASHMAP);
         bind(CacheAdapter.class).to(SimpleCache.class);
+        install(new CacheImplModule());
     }
     
 }

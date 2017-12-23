@@ -5,13 +5,14 @@
 Aspect-Oriented (AOP) cache based on [Caffeine cache](https://github.com/ben-manes/caffeine) using [Guice](https://github.com/google/guice) for dependency injection.
 
 AOP is implemented using either Guice or compile-time bytecode generation using [ByteBuddy](http://bytebuddy.net).
+It also supports thread local caching.
 
 ## Maven Dependency
 ```
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>cache</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
@@ -21,14 +22,14 @@ For compile-time bytecode generation, you need to include the `interceptor-annot
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>interceptor-annotation</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <optional>true</optional>
 </dependency>
 
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>cache-enhancer</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -76,6 +77,15 @@ public void setValue(@CacheValue int value, @CacheKey int id){
 public void clear(){
 ```
 
+`@ThreadLocalCached` enable caching for current thread.
+Require to start the cache, inject `ThreadLocalCacheAdapter`, and call `cache.start()`.
+Remember to end the cache by calling `cache.end()`.
+```
+@ThreadLocalCached( value = "cachekey")
+public getValue(){
+...
+```
+
 ### Guice AOP
 
 To enable Guice AOP, install `com.reincarnation.cache.guice.GuiceInceptorModule` as Guice Module.
@@ -103,7 +113,7 @@ Using ByteBuddy:
         <plugin>com.reincarnation.cache.enhancer.CachePlugin</plugin>
         <groupId>com.reincarnation.cache</groupId>
         <artifactId>cache-enhancer</artifactId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
       </transformation>
     </transformations>
   </configuration>
@@ -111,9 +121,11 @@ Using ByteBuddy:
 ```
 
 ## Benchmarks
-[Benchmark](https://github.com/wjtan/tr-recode-cache/blob/master/benchmark) is executed on an Intel Core i5-3570 CPU @ 3.40GHz, using Oracle Java 1.8.0_121-b13.
+[Benchmark](https://github.com/wjtan/tr-recode-cache/blob/master/benchmark) is executed on an Intel Core i5-3570 CPU @ 3.40GHz, using Oracle Java 1.8.0_151.
 
 The [benchmark results](https://github.com/wjtan/tr-recode-cache/blob/master/benchmark/results.txt) compares Guice AOP against compile-based AOP.
+
+[Thread local cache results](https://github.com/wjtan/tr-recode-cache/blob/master/benchmark/threadlocal-results.txt) compares the overhead of using thread local caching.
 
 ## License
 This project is released under terms of the [Apache 2.0](https://opensource.org/licenses/Apache-2.0).

@@ -9,7 +9,7 @@ import com.reincarnation.cache.annotation.CacheValue;
 import com.reincarnation.cache.annotation.CacheWrite;
 import com.reincarnation.cache.annotation.Cached;
 import com.reincarnation.cache.caffeine.CaffeineCacheModule;
-import com.reincarnation.cache.guice.GuiceInceptorModule;
+import com.reincarnation.cache.guice.GuiceInterceptorModule;
 import com.reincarnation.cache.util.MockConfigModule;
 
 import com.google.inject.AbstractModule;
@@ -53,7 +53,7 @@ public class CaffeineCacheAOPUnitTest {
         List<Module> modules = new ArrayList<>();
         modules.add(new MockConfigModule());
         modules.add(new CaffeineCacheModule());
-        modules.add(new GuiceInceptorModule());
+        modules.add(new GuiceInterceptorModule());
         modules.add(new AbstractModule() {
             @Override
             protected void configure() {

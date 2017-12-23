@@ -1,10 +1,12 @@
 package com.reincarnation.cache.interceptor;
 
 import com.reincarnation.cache.CacheAdapter;
+import com.reincarnation.cache.ThreadLocalCacheAdapter;
 import com.reincarnation.interceptor.annotation.Cache;
 import com.reincarnation.interceptor.annotation.CacheDuration;
 import com.reincarnation.interceptor.annotation.CachePredicate;
 import com.reincarnation.interceptor.annotation.GeneratedHash;
+import com.reincarnation.interceptor.annotation.ThreadLocalCache;
 
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
@@ -81,6 +83,19 @@ public final class CachedHashInterceptor {
         // If true
         if (cache != null && predicate.get()) {
             return cache.getOrElse(hash, callable, duration);
+        } else {
+            return callable.call();
+        }
+    }
+    
+    @BindingPriority(5)
+    @RuntimeType
+    public static Object intercept(@ThreadLocalCache ThreadLocalCacheAdapter cache,
+                                   @GeneratedHash int hash,
+                                   @SuperCall Callable<?> callable)
+            throws Exception {
+        if (cache != null) {
+            return cache.getOrElse(hash, callable);
         } else {
             return callable.call();
         }

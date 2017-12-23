@@ -2,8 +2,8 @@ package com.reincarnation.cache.enhancer.binder;
 
 import static net.bytebuddy.matcher.ElementMatchers.fieldType;
 
-import com.reincarnation.cache.CacheAdapter;
-import com.reincarnation.interceptor.annotation.Cache;
+import com.reincarnation.cache.ThreadLocalCacheAdapter;
+import com.reincarnation.interceptor.annotation.ThreadLocalCache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ import net.bytebuddy.implementation.bytecode.member.MethodVariableAccess;
 
 /**
  * <p>
- * Description: CacheBinder
+ * Description: ThreadLocalCacheBinder
  * </p>
  * <p>
  * Copyright: 2017
@@ -38,26 +38,26 @@ import net.bytebuddy.implementation.bytecode.member.MethodVariableAccess;
  * 
  * @author Denom
  */
-public enum CacheBinder implements TargetMethodAnnotationDrivenBinder.ParameterBinder<Cache> {
+public enum ThreadLocalCacheBinder implements TargetMethodAnnotationDrivenBinder.ParameterBinder<ThreadLocalCache> {
     INSTANCE;
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(CacheBinder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadLocalCacheBinder.class);
     
-    private static final TypeDescription CACHE_ADAPTER_TYPE = new TypeDescription.ForLoadedType(CacheAdapter.class);
+    private static final TypeDescription CACHE_ADAPTER_TYPE = new TypeDescription.ForLoadedType(ThreadLocalCacheAdapter.class);
     
     @Override
-    public Class<Cache> getHandledType() {
-        return Cache.class;
+    public Class<ThreadLocalCache> getHandledType() {
+        return ThreadLocalCache.class;
     }
     
     @Override
-    public ParameterBinding<?> bind(Loadable<Cache> annotation, MethodDescription source, ParameterDescription target,
+    public ParameterBinding<?> bind(Loadable<ThreadLocalCache> annotation, MethodDescription source, ParameterDescription target,
                                     Target implementationTarget, Assigner assigner, Typing typing) {
         
         TypeDescription parameterType = target.getType().asErasure();
         if (!parameterType.equals(CACHE_ADAPTER_TYPE)) {
             throw new IllegalStateException("The " + target + " method's " + target.getIndex() +
-                                            " parameter is annotated with a Cache annotation with an argument not representing a CacheAdapter type");
+                                            " parameter is annotated with a Cache annotation with an argument not representing a ThreadLocalCacheAdapter type");
         }
         
         Optional<FieldDescription> resolution = getField(implementationTarget.getInstrumentedType(), CACHE_ADAPTER_TYPE);

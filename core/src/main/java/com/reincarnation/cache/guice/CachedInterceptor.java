@@ -1,7 +1,6 @@
 package com.reincarnation.cache.guice;
 
 import com.reincarnation.cache.CacheAdapter;
-import com.reincarnation.cache.CacheException;
 import com.reincarnation.cache.annotation.Cached;
 import com.reincarnation.cache.util.AlwaysTrue;
 
@@ -12,7 +11,6 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 import javax.inject.Inject;
@@ -56,23 +54,13 @@ class CachedInterceptor implements MethodInterceptor {
             
             LOGGER.trace("Caching with hash={}, ttl={}", hash, timeToLive);
             if (timeToLive == 0) {
-                return cache.getOrElse(hash, invocationToCallable(methodInvocation));
+                return cache.getOrElse(hash, Utils.invocationToCallable(methodInvocation));
             } else {
-                return cache.getOrElse(hash, invocationToCallable(methodInvocation), timeToLive);
+                return cache.getOrElse(hash, Utils.invocationToCallable(methodInvocation), timeToLive);
             }
         } else {
             throw new IllegalArgumentException("Method " + methodInvocation.getMethod().getName() + " does not have a "
                                                + Cached.class.getSimpleName() + " annotation.");
         }
-    }
-    
-    private static Callable<Object> invocationToCallable(MethodInvocation methodInvocation) {
-        return () -> {
-            try {
-                return methodInvocation.proceed();
-            } catch (Throwable e) { // NOSONAR
-                throw new CacheException(e);
-            }
-        };
     }
 }

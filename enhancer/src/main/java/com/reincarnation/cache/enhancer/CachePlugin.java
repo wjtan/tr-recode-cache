@@ -6,11 +6,13 @@ import static net.bytebuddy.matcher.ElementMatchers.isStatic;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
 import com.reincarnation.cache.CacheAdapter;
+import com.reincarnation.cache.ThreadLocalCacheAdapter;
 import com.reincarnation.cache.annotation.CacheRemove;
 import com.reincarnation.cache.annotation.CacheRemoves;
 import com.reincarnation.cache.annotation.CacheWrite;
 import com.reincarnation.cache.annotation.Cached;
 import com.reincarnation.cache.annotation.IgnoreCacheEnhancer;
+import com.reincarnation.cache.annotation.ThreadLocalCached;
 import com.reincarnation.cache.enhancer.annotation.IgnoreCacheEnhancerImpl;
 import com.reincarnation.cache.enhancer.annotation.InjectImpl;
 import com.reincarnation.cache.enhancer.binder.CacheBinder;
@@ -21,9 +23,11 @@ import com.reincarnation.cache.enhancer.binder.CacheWriteDurationBinder;
 import com.reincarnation.cache.enhancer.binder.CacheWriteHashBinder;
 import com.reincarnation.cache.enhancer.binder.CachedDurationBinder;
 import com.reincarnation.cache.enhancer.binder.CachedHashBinder;
+import com.reincarnation.cache.enhancer.binder.ThreadLocalCacheBinder;
 import com.reincarnation.cache.interceptor.CacheRemoveInterceptor;
 import com.reincarnation.cache.interceptor.CacheWriteInterceptor;
 import com.reincarnation.cache.interceptor.CachedHashInterceptor;
+import com.reincarnation.cache.interceptor.ThreadLocalCachedHashInterceptor;
 import com.reincarnation.cache.util.AlwaysTrue;
 
 import org.slf4j.Logger;
@@ -68,7 +72,8 @@ public class CachePlugin implements Plugin {
                 if (annotation.getAnnotationType().represents(Cached.class) ||
                     annotation.getAnnotationType().represents(CacheWrite.class) ||
                     annotation.getAnnotationType().represents(CacheRemove.class) ||
-                    annotation.getAnnotationType().represents(CacheRemoves.class)) {
+                    annotation.getAnnotationType().represents(CacheRemoves.class) ||
+                    annotation.getAnnotationType().represents(ThreadLocalCached.class)) {
                     return true;
                 }
             }
@@ -78,33 +83,74 @@ public class CachePlugin implements Plugin {
     
     @Override
     public Builder<?> apply(Builder<?> builder, TypeDescription target) {
+        boolean hasCached = false;
+        boolean hasCacheWrite = false;
+        boolean hasCacheRemove = false;
+        boolean hasThreadLocalCache = false;
+        
+        for (MethodDescription method : target.getDeclaredMethods()) {
+            for (AnnotationDescription annotation : method.getDeclaredAnnotations()) {
+                hasCached |= annotation.getAnnotationType().represents(Cached.class);
+                hasCacheWrite |= annotation.getAnnotationType().represents(CacheWrite.class);
+                hasCacheRemove |= annotation.getAnnotationType().represents(CacheRemove.class);
+                hasCacheRemove |= annotation.getAnnotationType().represents(CacheRemoves.class);
+                hasThreadLocalCache |= annotation.getAnnotationType().represents(ThreadLocalCached.class);
+            }
+        }
+        
         // Add IgnoreCacheEnhancer so that class will not be enhanced again
-        Builder<?> builder2 = builder.annotateType(new IgnoreCacheEnhancerImpl())
-                                     .defineField(randomName("cache"), CacheAdapter.class, Visibility.PROTECTED).annotateField(new InjectImpl());
-        builder2 = applyPredicate(builder2, target);
+        Builder<?> builder2 = builder.annotateType(new IgnoreCacheEnhancerImpl());
+        
+        if (hasCached || hasCacheWrite || hasCacheRemove) {
+            builder2 = builder2.defineField(randomName("cache"), CacheAdapter.class, Visibility.PROTECTED).annotateField(new InjectImpl());
+        }
+        
+        if (hasThreadLocalCache) {
+            builder2 = builder2.defineField(randomName("localCache"), ThreadLocalCacheAdapter.class, Visibility.PROTECTED).annotateField(new InjectImpl());
+        }
+        
+        if (hasCached) {
+            builder2 = applyPredicate(builder2, target);
+        }
         
         // More detailed match lower
-        return builder2.method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(CacheRemove.class).or(isAnnotatedWith(CacheRemoves.class))).and(not(isStatic())))
-                       .intercept(MethodDelegation.withDefaultConfiguration()
-                                                  .withBinders(CacheBinder.INSTANCE,
-                                                               CacheRemoveHashBinder.INSTANCE)
-                                                  .to(CacheRemoveInterceptor.class))
-                       
-                       .method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(CacheWrite.class)).and(not(isStatic())))
-                       .intercept(MethodDelegation.withDefaultConfiguration()
-                                                  .withBinders(CacheBinder.INSTANCE,
-                                                               CacheWriteHashBinder.INSTANCE,
-                                                               CacheWriteDurationBinder.INSTANCE,
-                                                               CacheValueBinder.INSTANCE)
-                                                  .to(CacheWriteInterceptor.class))
-                       
-                       .method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(Cached.class)).and(not(isStatic())))
-                       .intercept(MethodDelegation.withDefaultConfiguration()
-                                                  .withBinders(CacheBinder.INSTANCE,
-                                                               CachedHashBinder.INSTANCE,
-                                                               CachedDurationBinder.INSTANCE,
-                                                               CachePredicateBinder.INSTANCE)
-                                                  .to(CachedHashInterceptor.class));
+        if (hasCacheRemove) {
+            builder2 = builder2.method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(CacheRemove.class).or(isAnnotatedWith(CacheRemoves.class))).and(not(isStatic())))
+                               .intercept(MethodDelegation.withDefaultConfiguration()
+                                                          .withBinders(CacheBinder.INSTANCE,
+                                                                       CacheRemoveHashBinder.INSTANCE)
+                                                          .to(CacheRemoveInterceptor.class));
+        }
+        
+        if (hasCacheWrite) {
+            builder2 = builder2.method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(CacheWrite.class)).and(not(isStatic())))
+                               .intercept(MethodDelegation.withDefaultConfiguration()
+                                                          .withBinders(CacheBinder.INSTANCE,
+                                                                       CacheWriteHashBinder.INSTANCE,
+                                                                       CacheWriteDurationBinder.INSTANCE,
+                                                                       CacheValueBinder.INSTANCE)
+                                                          .to(CacheWriteInterceptor.class));
+        }
+        
+        if (hasCached) {
+            builder2 = builder2.method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(Cached.class)).and(not(isStatic())))
+                               .intercept(MethodDelegation.withDefaultConfiguration()
+                                                          .withBinders(CacheBinder.INSTANCE,
+                                                                       CachedHashBinder.INSTANCE,
+                                                                       CachedDurationBinder.INSTANCE,
+                                                                       CachePredicateBinder.INSTANCE)
+                                                          .to(CachedHashInterceptor.class));
+        }
+        
+        if (hasThreadLocalCache) {
+            builder2 = builder2.method(not(isDeclaredBy(Object.class)).and(isAnnotatedWith(ThreadLocalCached.class)).and(not(isStatic())))
+                               .intercept(MethodDelegation.withDefaultConfiguration()
+                                                          .withBinders(ThreadLocalCacheBinder.INSTANCE,
+                                                                       CachedHashBinder.INSTANCE)
+                                                          .to(ThreadLocalCachedHashInterceptor.class));
+        }
+        
+        return builder2;
     }
     
     protected static String randomName(String prefix) {

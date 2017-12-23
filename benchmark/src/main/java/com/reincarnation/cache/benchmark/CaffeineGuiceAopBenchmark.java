@@ -1,7 +1,7 @@
 package com.reincarnation.cache.benchmark;
 
 import com.reincarnation.cache.caffeine.CaffeineCacheModule;
-import com.reincarnation.cache.guice.GuiceInceptorModule;
+import com.reincarnation.cache.guice.GuiceInterceptorModule;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -45,7 +45,7 @@ public class CaffeineGuiceAopBenchmark {
             List<Module> modules = new ArrayList<>();
             modules.add(new MockConfigModule());
             modules.add(new CaffeineCacheModule());
-            modules.add(new GuiceInceptorModule());
+            modules.add(new GuiceInterceptorModule());
             modules.add(new AbstractModule() {
                 @Override
                 protected void configure() {

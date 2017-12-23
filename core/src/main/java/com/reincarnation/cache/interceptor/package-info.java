@@ -1,6 +1,6 @@
 /**
  * <p>
- * Inceptors used in bytecode enhancer.
+ * Interceptors used in bytecode enhancer.
  * </p>
  *
  * @author Denom

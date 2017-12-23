@@ -7,6 +7,7 @@ import static com.reincarnation.cache.enhancer.binder.HashTypes.GET_HASH_METHOD;
 import static com.reincarnation.cache.enhancer.binder.HashTypes.HASH_FUNCTION_TYPE;
 
 import com.reincarnation.cache.annotation.Cached;
+import com.reincarnation.cache.annotation.ThreadLocalCached;
 import com.reincarnation.interceptor.annotation.GeneratedHash;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import net.bytebuddy.description.annotation.AnnotationDescription;
 import net.bytebuddy.description.annotation.AnnotationDescription.Loadable;
+import net.bytebuddy.description.annotation.AnnotationList;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.method.ParameterDescription;
 import net.bytebuddy.description.type.TypeDescription;
@@ -59,8 +61,9 @@ public enum CachedHashBinder implements TargetMethodAnnotationDrivenBinder.Param
                                             " parameter is annotated with a GeneratedHash annotation with an argument not representing a int type");
         }
         
-        if (!source.getDeclaredAnnotations().isAnnotationPresent(Cached.class)) {
-            throw new IllegalStateException(source + " method is not annotated with CacheWrite");
+        if (!source.getDeclaredAnnotations().isAnnotationPresent(Cached.class) &&
+            !source.getDeclaredAnnotations().isAnnotationPresent(ThreadLocalCached.class)) {
+            throw new IllegalStateException(source + " method is not annotated with Cached or ThreadLocalCached");
         }
         
         StackManipulation stackManipulation = writeSingleHash(source);
@@ -92,9 +95,19 @@ public enum CachedHashBinder implements TargetMethodAnnotationDrivenBinder.Param
     }
     
     private static String getPrimaryKey(MethodDescription source) {
-        AnnotationDescription annotation = source.getDeclaredAnnotations().ofType(Cached.class);
-        Cached cached = annotation.prepare(Cached.class).loadSilent();
-        String key = cached.value();
+        String key = null;
+        
+        AnnotationList annotations = source.getDeclaredAnnotations();
+        
+        if (annotations.isAnnotationPresent(Cached.class)) {
+            AnnotationDescription annotation = source.getDeclaredAnnotations().ofType(Cached.class);
+            Cached cached = annotation.prepare(Cached.class).loadSilent();
+            key = cached.value();
+        } else if (annotations.isAnnotationPresent(ThreadLocalCached.class)) {
+            AnnotationDescription annotation = source.getDeclaredAnnotations().ofType(ThreadLocalCached.class);
+            ThreadLocalCached cached = annotation.prepare(ThreadLocalCached.class).loadSilent();
+            key = cached.value();
+        }
         
         if (key != null && !key.trim().isEmpty()) {
             return key;

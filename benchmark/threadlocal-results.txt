@@ -1,0 +1,5 @@
+Benchmark                            Mode  Cnt  Score    Error  Units
+ThreadLocalCacheBenchmark.baseline   avgt   10  0.002 ±  0.001  us/op
+ThreadLocalCacheBenchmark.cached     avgt   10  0.017 ±  0.001  us/op
+ThreadLocalCacheBenchmark2.baseline  avgt   10  0.002 ±  0.001  us/op
+ThreadLocalCacheBenchmark2.noCache   avgt   10  0.006 ±  0.001  us/op

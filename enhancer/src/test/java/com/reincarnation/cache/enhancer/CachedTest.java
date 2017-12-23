@@ -13,7 +13,7 @@ import org.junit.Test;
 
 /**
  * <p>
- * Description: App
+ * Description: CachedTest
  * </p>
  * <p>
  * Copyright: 2017
@@ -30,7 +30,7 @@ public class CachedTest {
     
     @BeforeClass
     public static void startApp() throws Exception {
-        Class<? extends CachedObject> clazz = new CacheInceptor().intercept(CachedObject.class);
+        Class<? extends CachedObject> clazz = new CacheInterceptor().intercept(CachedObject.class);
         injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {

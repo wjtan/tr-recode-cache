@@ -1,3 +1,4 @@
+2017-03-05
 Benchmark                                       Mode  Cnt  Score    Error  Units
 CaffeineEnhancerBenchmark.baseline              avgt   10  0.003 ±  0.001  us/op
 CaffeineEnhancerBenchmark.cache                 avgt   10  0.015 ±  0.001  us/op
@@ -13,3 +14,20 @@ CaffeineGuiceAopBenchmark.cacheWithKey          avgt   10  0.272 ±  0.005  us/op
 CaffeineGuiceAopBenchmark.directCache           avgt   10  0.029 ±  0.001  us/op
 CaffeineGuiceAopBenchmark.temporalCache         avgt   10  0.263 ±  0.002  us/op
 CaffeineGuiceAopBenchmark.temporalCacheWithKey  avgt   10  0.338 ±  0.002  us/op
+
+2017-12-23
+Benchmark                                       Mode  Cnt  Score    Error  Units
+CaffeineEnhancerBenchmark.baseline              avgt   10  0.003 ±  0.001  us/op
+CaffeineEnhancerBenchmark.cache                 avgt   10  0.016 ±  0.001  us/op
+CaffeineEnhancerBenchmark.cacheNamedParameter   avgt   10  0.018 ±  0.001  us/op
+CaffeineEnhancerBenchmark.cacheParameter        avgt   10  0.018 ±  0.001  us/op
+CaffeineEnhancerBenchmark.cacheWithKey          avgt   10  0.016 ±  0.001  us/op
+CaffeineEnhancerBenchmark.temporalCache         avgt   10  0.100 ±  0.001  us/op
+CaffeineEnhancerBenchmark.temporalCacheWithKey  avgt   10  0.101 ±  0.001  us/op
+CaffeineGuiceAopBenchmark.cache                 avgt   10  0.278 ±  0.002  us/op
+CaffeineGuiceAopBenchmark.cacheNamedParameter   avgt   10  4.338 ±  0.025  us/op
+CaffeineGuiceAopBenchmark.cacheParameter        avgt   10  0.329 ±  0.001  us/op
+CaffeineGuiceAopBenchmark.cacheWithKey          avgt   10  0.274 ±  0.002  us/op
+CaffeineGuiceAopBenchmark.directCache           avgt   10  0.031 ±  0.001  us/op
+CaffeineGuiceAopBenchmark.temporalCache         avgt   10  0.369 ±  0.003  us/op
+CaffeineGuiceAopBenchmark.temporalCacheWithKey  avgt   10  0.363 ±  0.003  us/op

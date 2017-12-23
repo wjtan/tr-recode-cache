@@ -1,6 +1,6 @@
-package com.reincarnation.cache.annotation;
+package com.reincarnation.interceptor.annotation;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * <p>
- * Description: IgnoreCacheEnhancer
+ * Description: Label parameter as ThreadLocalCacheAdapter
  * </p>
  * <p>
  * Copyright: 2017
@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * @version 1.0
  */
 @Retention(RUNTIME)
-@Target(TYPE)
-public @interface IgnoreCacheEnhancer {
+@Target(PARAMETER)
+public @interface ThreadLocalCache {
     
 }

@@ -30,7 +30,7 @@ public class CacheWriteTest {
     
     @BeforeClass
     public static void startApp() throws Exception {
-        Class<? extends CacheWriteObject> clazz = new CacheInceptor().intercept(CacheWriteObject.class);
+        Class<? extends CacheWriteObject> clazz = new CacheInterceptor().intercept(CacheWriteObject.class);
         injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
