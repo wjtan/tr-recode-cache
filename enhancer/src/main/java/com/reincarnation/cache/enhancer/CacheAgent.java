@@ -3,6 +3,7 @@ package com.reincarnation.cache.enhancer;
 import java.lang.instrument.Instrumentation;
 
 import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.dynamic.ClassFileLocator;
 
 /**
  * <p>
@@ -25,7 +26,7 @@ public final class CacheAgent {
         CachePlugin plugin = new CachePlugin();
         
         new AgentBuilder.Default().type(plugin)
-                                  .transform((builder, type, classLoader, module) -> plugin.apply(builder, type))
+                                  .transform((builder, type, classLoader, module) -> plugin.apply(builder, type, ClassFileLocator.ForClassLoader.of(classLoader)))
                                   .installOn(instrumentation);
     }
 }

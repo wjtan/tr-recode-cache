@@ -1,7 +1,10 @@
 package com.reincarnation.cache.enhancer;
 
+import java.io.IOException;
+
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.ClassFileLocator;
 import net.bytebuddy.dynamic.DynamicType.Builder;
 
 /**
@@ -18,17 +21,23 @@ import net.bytebuddy.dynamic.DynamicType.Builder;
 public class CacheInterceptor {
     @SuppressWarnings("unchecked")
     public <T> Class<? extends T> intercept(Class<? extends T> clazz) {
-        CachePlugin plugin = new CachePlugin();
-        
-        TypeDescription target = new TypeDescription.ForLoadedType(clazz);
-        if (!plugin.matches(target)) {
-            return clazz;
+        try (CachePlugin plugin = new CachePlugin()) {
+            
+            TypeDescription target = new TypeDescription.ForLoadedType(clazz);
+            if (!plugin.matches(target)) {
+                return clazz;
+            }
+            
+            Builder<? extends T> builder = new ByteBuddy().subclass(clazz);
+            
+            ClassLoader classLoader = getClass().getClassLoader();
+            ClassFileLocator classFileLocator = ClassFileLocator.ForClassLoader.of(classLoader);
+            
+            return ((Builder<? extends T>) plugin.apply(builder, target, classFileLocator)).make()
+                                                                                           .load(classLoader)
+                                                                                           .getLoaded();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        
-        Builder<? extends T> builder = new ByteBuddy().subclass(clazz);
-        
-        return ((Builder<? extends T>) plugin.apply(builder, target)).make()
-                                                                     .load(getClass().getClassLoader())
-                                                                     .getLoaded();
     }
 }

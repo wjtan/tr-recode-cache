@@ -4,13 +4,13 @@
 
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>parent</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <packaging>pom</packaging>
 
   <name>TR Recode Cache (Parent)</name>
 
   <properties>
-    <project.version>0.2.0</project.version>
+    <project.version>0.3.0</project.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!--
         Java source/target to use for compilation.
@@ -35,27 +35,27 @@
       <dependency>
         <groupId>com.google.inject</groupId>
          <artifactId>guice</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.2</version>
       </dependency>
       <dependency>
         <groupId>com.github.ben-manes.caffeine</groupId>
         <artifactId>caffeine</artifactId>
-        <version>2.6.0</version>
+        <version>2.6.2</version>
       </dependency>
       <dependency>
         <groupId>net.bytebuddy</groupId>
         <artifactId>byte-buddy</artifactId>
-        <version>1.6.9</version>
+        <version>1.9.9</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.24</version>
+        <version>1.7.25</version>
       </dependency>
       <dependency>
         <groupId>com.typesafe</groupId>
         <artifactId>config</artifactId>
-        <version>1.3.1</version>
+        <version>1.3.3</version>
       </dependency>
     
       <!-- Test -->
@@ -67,17 +67,17 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>2.7.13</version>
+        <version>2.23.4</version>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.6.2</version>
+        <version>3.11.1</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
-        <version>1.7.24</version>
+        <version>1.7.25</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -98,12 +98,15 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.19.1</version>
+          <version>2.22.1</version>
+          <configuration>
+            <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+          </configuration>
           <dependencies>
             <dependency>
               <groupId>org.apache.maven.surefire</groupId>
-              <artifactId>surefire-junit47</artifactId>
-              <version>2.19.1</version>
+              <artifactId>surefire-junit4</artifactId>
+              <version>2.22.1</version>
             </dependency>
           </dependencies>
         </plugin>

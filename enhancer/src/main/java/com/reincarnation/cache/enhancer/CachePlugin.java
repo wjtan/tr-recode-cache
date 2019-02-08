@@ -33,6 +33,7 @@ import com.reincarnation.cache.util.AlwaysTrue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ import net.bytebuddy.description.annotation.AnnotationDescription;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.ClassFileLocator;
 import net.bytebuddy.dynamic.DynamicType.Builder;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.utility.RandomString;
@@ -82,7 +84,7 @@ public class CachePlugin implements Plugin {
     }
     
     @Override
-    public Builder<?> apply(Builder<?> builder, TypeDescription target) {
+    public Builder<?> apply(Builder<?> builder, TypeDescription target, ClassFileLocator classFileLocator) {
         boolean hasCached = false;
         boolean hasCacheWrite = false;
         boolean hasCacheRemove = false;
@@ -197,6 +199,11 @@ public class CachePlugin implements Plugin {
         }
         
         return builder2;
+    }
+    
+    @Override
+    public void close() throws IOException {
+        
     }
     
 }
