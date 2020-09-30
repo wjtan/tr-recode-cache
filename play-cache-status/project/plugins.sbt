@@ -1,5 +1,3 @@
-resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
-
 // Eclipse
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.4")
 
