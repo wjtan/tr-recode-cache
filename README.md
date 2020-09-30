@@ -12,7 +12,7 @@ It also supports thread local caching.
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>cache</artifactId>
-  <version>0.2.0</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 
@@ -22,14 +22,14 @@ For compile-time bytecode generation, you need to include the `interceptor-annot
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>interceptor-annotation</artifactId>
-  <version>0.2.0</version>
+  <version>0.4.0</version>
   <optional>true</optional>
 </dependency>
 
 <dependency>
   <groupId>com.reincarnation.cache</groupId>
   <artifactId>cache-enhancer</artifactId>
-  <version>0.2.0</version>
+  <version>0.4.0</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -99,7 +99,7 @@ Using ByteBuddy:
 <plugin>
   <groupId>net.bytebuddy</groupId>
   <artifactId>byte-buddy-maven-plugin</artifactId>
-  <version>1.6.9</version>
+  <version>1.10.16</version>
   <executions>
     <execution>
       <goals>
@@ -113,7 +113,7 @@ Using ByteBuddy:
         <plugin>com.reincarnation.cache.enhancer.CachePlugin</plugin>
         <groupId>com.reincarnation.cache</groupId>
         <artifactId>cache-enhancer</artifactId>
-        <version>0.2.0</version>
+        <version>0.4.0</version>
       </transformation>
     </transformations>
   </configuration>
