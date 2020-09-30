@@ -46,7 +46,7 @@ public enum CachedDurationBinder implements TargetMethodAnnotationDrivenBinder.P
         }
         
         AnnotationDescription sourceAnnotation = source.getDeclaredAnnotations().ofType(Cached.class);
-        Cached cached = sourceAnnotation.prepare(Cached.class).loadSilent();
+        Cached cached = sourceAnnotation.prepare(Cached.class).load();
         int duration = cached.timeToLiveSeconds();
         if (duration > 0) {
             return new MethodDelegationBinder.ParameterBinding.Anonymous(IntegerConstant.forValue(duration));

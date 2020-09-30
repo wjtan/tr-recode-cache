@@ -101,11 +101,11 @@ public enum CachedHashBinder implements TargetMethodAnnotationDrivenBinder.Param
         
         if (annotations.isAnnotationPresent(Cached.class)) {
             AnnotationDescription annotation = source.getDeclaredAnnotations().ofType(Cached.class);
-            Cached cached = annotation.prepare(Cached.class).loadSilent();
+            Cached cached = annotation.prepare(Cached.class).load();
             key = cached.value();
         } else if (annotations.isAnnotationPresent(ThreadLocalCached.class)) {
             AnnotationDescription annotation = source.getDeclaredAnnotations().ofType(ThreadLocalCached.class);
-            ThreadLocalCached cached = annotation.prepare(ThreadLocalCached.class).loadSilent();
+            ThreadLocalCached cached = annotation.prepare(ThreadLocalCached.class).load();
             key = cached.value();
         }
         

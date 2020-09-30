@@ -115,7 +115,7 @@ public enum CacheWriteHashBinder implements TargetMethodAnnotationDrivenBinder.P
     
     private static String getPrimaryKey(MethodDescription source) {
         AnnotationDescription annotation = source.getDeclaredAnnotations().ofType(CacheWrite.class);
-        CacheWrite cacheWrite = annotation.prepare(CacheWrite.class).loadSilent();
+        CacheWrite cacheWrite = annotation.prepare(CacheWrite.class).load();
         String key = cacheWrite.value();
         
         if (Strings.isNullOrEmpty(key)) {

@@ -46,7 +46,7 @@ public enum CacheWriteDurationBinder implements TargetMethodAnnotationDrivenBind
         }
         
         AnnotationDescription sourceAnnotation = source.getDeclaredAnnotations().ofType(CacheWrite.class);
-        CacheWrite cacheWrite = sourceAnnotation.prepare(CacheWrite.class).loadSilent();
+        CacheWrite cacheWrite = sourceAnnotation.prepare(CacheWrite.class).load();
         int duration = cacheWrite.timeToLiveSeconds();
         if (duration > 0) {
             return new MethodDelegationBinder.ParameterBinding.Anonymous(IntegerConstant.forValue(duration));

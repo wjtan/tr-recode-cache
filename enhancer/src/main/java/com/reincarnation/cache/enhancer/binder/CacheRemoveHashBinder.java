@@ -109,7 +109,7 @@ public enum CacheRemoveHashBinder implements TargetMethodAnnotationDrivenBinder.
         ArrayFactory arrayFactory = ArrayFactory.forType(intType.asGenericType());
         
         AnnotationDescription methodAnnotation = source.getDeclaredAnnotations().ofType(CacheRemoves.class);
-        CacheRemoves cacheRemoves = methodAnnotation.prepare(CacheRemoves.class).loadSilent();
+        CacheRemoves cacheRemoves = methodAnnotation.prepare(CacheRemoves.class).load();
         
         ParameterList<ParameterDescription.InDefinedShape> parameters = source.getParameters().asDefined();
         
@@ -148,7 +148,7 @@ public enum CacheRemoveHashBinder implements TargetMethodAnnotationDrivenBinder.
     
     protected static String getPrimaryKey(MethodDescription source) {
         AnnotationDescription methodAnnotation = source.getDeclaredAnnotations().ofType(CacheRemove.class);
-        CacheRemove cacheRemove = methodAnnotation.prepare(CacheRemove.class).loadSilent();
+        CacheRemove cacheRemove = methodAnnotation.prepare(CacheRemove.class).load();
         String key = cacheRemove.value();
         if (Strings.isNullOrEmpty(key)) {
             throw new IllegalStateException("CacheRemove has not set value");

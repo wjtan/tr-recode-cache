@@ -57,7 +57,7 @@ public enum CachePredicateBinder implements TargetMethodAnnotationDrivenBinder.P
                                     Target implementationTarget, Assigner assigner, Typing typing) {
         
         AnnotationDescription sourceAnnotation = source.getDeclaredAnnotations().ofType(Cached.class);
-        Cached cached = sourceAnnotation.prepare(Cached.class).loadSilent();
+        Cached cached = sourceAnnotation.prepare(Cached.class).load();
         
         TypeDescription predicateType = new TypeDescription.ForLoadedType(cached.predicate());
         

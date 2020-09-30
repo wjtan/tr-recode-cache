@@ -1,12 +1,12 @@
 name := """play-cache-status"""
 
-version := "0.3.0"
+version := "0.4.0"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.3"
 
 libraryDependencies ++= Seq(
   "com.google.inject" % "guice" % "4.2.2",
-  "com.github.ben-manes.caffeine" % "caffeine" % "2.6.2"
+  "com.github.ben-manes.caffeine" % "caffeine" % "2.8.5"
 )
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)

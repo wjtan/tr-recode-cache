@@ -177,7 +177,7 @@ public class CachePlugin implements Plugin {
             }
             
             AnnotationDescription sourceAnnotation = method.getDeclaredAnnotations().ofType(Cached.class);
-            Cached cached = sourceAnnotation.prepare(Cached.class).loadSilent();
+            Cached cached = sourceAnnotation.prepare(Cached.class).load();
             
             if (cached.predicate().equals(AlwaysTrue.class)) {
                 continue;
